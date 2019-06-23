@@ -7,7 +7,7 @@ from Jinja2 templates.
 <defs>
   <app>
     <id>10</id>
-    <gui>True</gui>
+    <gui_type>x11</gui_type>
     <friendly_name>CrashPlan PRO</friendly_name>
     <name>{{ defs.app.friendly_name|lower|replace(' ', '-') }}</name>
     <project>
@@ -20,7 +20,7 @@ is protected and easily accessible.
       <url>https://www.crashplan.com/en-us/business/</url>
     </project>
     <unraid>
-      <support_url>https://forums.lime-technology.com/topic/59647-support-crashplan-pro/</support_url>
+      <support_url>https://forums.unraid.net/topic/59647-support-crashplan-pro/</support_url>
       <category>Backup:</category>
       <extra_description>
     [span style='color: red;'][b]Warning:[/b][/span] Make sure to read the
@@ -100,6 +100,25 @@ To perform the transition, you need to:
       mapped to a new, empty host directory.
     - Follow instructions detailed in the
       [Taking Over Existing Backup](#taking-over-existing-backup) section.
+        </content>
+      </section>
+      <section>
+        <title level="2">Why CrashPlan Self Update Is Disabled</title>
+        <content>
+One advantage of a Docker image is that it can be versioned and predictable,
+meaning that a specific version of the image always behaves the same way.  So
+if, for any reason, a new image version has a problem and doesn't work as
+expected, it's easy for one to revert to the previous version and be back on
+track.
+
+Allowing CrashPlan to update itself obviously breaks this benefit.  Also, since
+the container has only the minimal set of libraries and tools required to run
+CrashPlan, it would be easy for an automatic update to break the container by
+requiring new dependencies.  Finally, the automatic update script is not adapted
+for Alpine Linux (the distribution on which this container is based on) and
+assumes it is running on a full-featured distibution.  For example, this image
+doesn't have a desktop like normal installations and some of the tools required
+to perform the update are missing.
         </content>
       </section>
       <section>
@@ -211,7 +230,7 @@ latest version will also bring the latest version of CrashPlan.
       </link>
       <link>
         <name>Linux real-time file watching errors</name>
-        <url>https://support.code42.com/CrashPlan/4/Troubleshooting/Linux_real-time_file_watching_errors</url>
+        <url>https://support.code42.com/CrashPlan/6/Troubleshooting/Linux_real-time_file_watching_errors</url>
       </link>
       <link>
         <name>being decommissioned</name>
@@ -224,6 +243,98 @@ latest version will also bring the latest version of CrashPlan.
     </documentation>
     <!-- Changelog of the application. -->
     <history>
+      <release>
+        <version>2.7.1</version>
+        <date>2019-06-22</date>
+        <change>Fixed an issue where setting (via the environment variable) the maximum amount of memory CrashPlan is allowed to use would prevent the engine to start.</change>
+      </release>
+      <release>
+        <version>2.7.0</version>
+        <date>2019-06-22</date>
+        <change>Upgraded CrashPlan PRO to version 7.0.0.</change>
+      </release>
+      <release>
+        <version>2.6.4</version>
+        <date>2019-04-24</date>
+        <change>Now using baseimage v3.5.2, which brings the following changes:</change>
+        <change level="2">Updated installed packages to get latest security fixes.</change>
+        <change level="2">Fixed issue where the container could have a zombie process.</change>
+        <change level="2">Fixed issue where the password would not be submitted when pressing the enter key in the password modal.</change>
+        <change level="2">Use relative path for favicon ressources to be more friendly with reverse proxy senarios.</change>
+      </release>
+      <release>
+        <version>2.6.3</version>
+        <date>2019-04-20</date>
+        <change>Upgraded CrashPlan PRO to version 6.9.4.</change>
+      </release>
+      <release>
+        <version>2.6.2</version>
+        <date>2019-02-20</date>
+        <change>Upgraded CrashPlan PRO to version 6.9.2.</change>
+      </release>
+      <release>
+        <version>2.6.1</version>
+        <date>2018-12-19</date>
+        <change>Upgraded to build 827 of CrashPlan PRO 6.9.0.</change>
+        <change>Updated logo of Crashplan.</change>
+      </release>
+      <release>
+        <version>2.6.0</version>
+        <date>2018-12-09</date>
+        <change>Upgraded CrashPlan PRO to version 6.9.0.</change>
+        <change>Make sure only the numerical kernel version is reported to CrashPlan PRO.</change>
+      </release>
+      <release>
+        <version>2.5.0</version>
+        <date>2018-09-20</date>
+        <change>Upgraded CrashPlan PRO to version 6.8.3.</change>
+      </release>
+      <release>
+        <version>2.4.1</version>
+        <date>2018-09-18</date>
+        <change>Now using baseimage v3.5.1, which brings the following changes:</change>
+        <change level="2">Updated installed packages to get latest security fixes.</change>
+      </release>
+      <release>
+        <version>2.4.0</version>
+        <date>2018-08-22</date>
+        <change>Upgraded CrashPlan PRO to version 6.8.2.</change>
+        <change>Now using baseimage v3.5.0, which brings the following changes (since last used version):</change>
+        <change level="2">Based on Alpine Linux 3.8.</change>
+        <change level="2">Upgraded s6-overlay to version 1.21.4.0.</change>
+        <change level="2">Wait for a limited time when terminating a service.</change>
+        <change level="2">Set and create the XDG_RUNTIME_DIR directory.</change>
+      </release>
+      <release>
+        <version>2.3.8</version>
+        <date>2018-08-10</date>
+        <change>Fixed and issue where container would fail to start on host running CentOS.</change>
+      </release>
+      <release>
+        <version>2.3.7</version>
+        <date>2018-06-14</date>
+        <change>To make sure the CrashPlan Engine will start, validate the value of CRASHPLAN_SRV_MAX_MEM variable during startup.</change>
+      </release>
+      <release>
+        <version>2.3.6</version>
+        <date>2018-06-11</date>
+        <change>Fixed more instances where parsing of CrashPlan memory usage would fail.</change>
+      </release>
+      <release>
+        <version>2.3.5</version>
+        <date>2018-06-06</date>
+        <change>Fixed an issue where parsing of CrashPlan memory usage would fail.</change>
+      </release>
+      <release>
+        <version>2.3.4</version>
+        <date>2018-05-15</date>
+        <change>Upgraded CrashPlan to version 6.7.2.</change>
+      </release>
+      <release>
+        <version>2.3.3</version>
+        <date>2018-04-23</date>
+        <change>Fixed issue where supplementary groups were not applied to the CrashPlan engine.</change>
+      </release>
       <release>
         <version>2.3.2</version>
         <date>2018-04-03</date>
@@ -366,7 +477,7 @@ latest version will also bring the latest version of CrashPlan.
     <environment_variables>
       <environment_variable>
         <name>CRASHPLAN_SRV_MAX_MEM</name>
-        <description>Maximum amount of memory the CrashPlan Engine is allowed to use. One of the following memory unit (case insensitive) should be added as a suffix to the size: `G`, `M` or `K`.  By default, when this variable is not set, a maximum of 1024MB (`1024M`) of memory is allowed.</description>
+        <description>Maximum amount of memory the CrashPlan Engine is allowed to use. One of the following memory unit (case insensitive) should be added as a suffix to the size: `G`, `M` or `K`.  By default, when this variable is not set, a maximum of 1024MB (`1024M`) of memory is allowed. **NOTE**: Setting this variable as the same effect as running the `java mx VALUE, restart` command from the CrashPlan command line.</description>
         <unraid_template>
           <title>Maximum Memory</title>
           <description>Maximum amount of memory the CrashPlan Engine is allowed to use.  One of the following memory unit (case insensitive) should be added as a suffix to the size: [b][i]G[/i][/b], [b][i]M[/i][/b] or [b][i]K[/i][/b]. By default, when this variable is not set, a maximum of 1024MB ([b][i]1024M[/i][/b]) of memory is allowed.</description>
